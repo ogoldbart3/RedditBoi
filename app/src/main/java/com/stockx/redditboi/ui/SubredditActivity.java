@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.stockx.redditboi.R;
 import com.stockx.redditboi.listeners.GenericListener;
@@ -17,23 +21,59 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity {
+/**
+ * Created by oliver on 3/29/18
+ */
+
+public class SubredditActivity extends BaseActivity {
 
     private PostAdapter mPostAdapter;
+
+    private EditText mEditText;
+
+    private Callback<RedditWrapper> mCallback = new Callback<RedditWrapper>() {
+        @Override
+        public void onResponse(Call<RedditWrapper> call, Response<RedditWrapper> response) {
+            if (response.isSuccessful()) {
+                RedditWrapper redditWrapper = response.body();
+                if (redditWrapper != null
+                        && redditWrapper.getData() != null) {
+                    mPostAdapter.setItems(redditWrapper.getData().getChildren());
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(Call<RedditWrapper> call, Throwable t) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_subreddit);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        mEditText = findViewById(R.id.subreddit_name_edittext);
+        mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    initiateGetSubredditCall(v.getText().toString(), mCallback);
+                    hideKeyboard();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         RecyclerView postRecycler = findViewById(R.id.recycler);
-
-        //
 
         mPostAdapter = new PostAdapter();
         mPostAdapter.setItemClickListener(new GenericListener<RedditPost>() {
@@ -46,25 +86,6 @@ public class MainActivity extends BaseActivity {
         LinearLayoutManager searchHistoryLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         postRecycler.setLayoutManager(searchHistoryLinearLayoutManager);
         postRecycler.setAdapter(mPostAdapter);
-
-        initiateGetSubredditCall("sneakers", new Callback<RedditWrapper>() {
-            @Override
-            public void onResponse(Call<RedditWrapper> call, Response<RedditWrapper> response) {
-                if (response.isSuccessful()) {
-                    RedditWrapper redditWrapper = response.body();
-                    if (redditWrapper != null
-                            && redditWrapper.getData() != null) {
-                        mPostAdapter.setItems(redditWrapper.getData().getChildren());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RedditWrapper> call, Throwable t) {
-
-            }
-        });
-
     }
 
     @Override

@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.SubredditActivity"
+            android:label="@string/activity_subreddit_title"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
