@@ -39,7 +39,9 @@ public class MainActivity extends BaseActivity {
         mPostAdapter.setItemClickListener(new GenericListener<RedditPost>() {
             @Override
             public void onComplete(RedditPost output) {
-                System.out.println(output.getData().getScore());
+                String url = getString(R.string.base_url) + output.getData().getPermalink();
+                System.out.println(url);
+                openWebPage(url);
             }
         });
 
@@ -47,7 +49,7 @@ public class MainActivity extends BaseActivity {
         postRecycler.setLayoutManager(searchHistoryLinearLayoutManager);
         postRecycler.setAdapter(mPostAdapter);
 
-        initiateGetSubredditCall("sneakers", new Callback<RedditWrapper>() {
+        initiateGetHomepageCall(new Callback<RedditWrapper>() {
             @Override
             public void onResponse(Call<RedditWrapper> call, Response<RedditWrapper> response) {
                 if (response.isSuccessful()) {

@@ -11,6 +11,9 @@ import retrofit2.http.Path;
  */
 public interface ApiService {
 
-    @GET("r/{subreddit_name}/.json")
-    Call<RedditWrapper> getSearch(@Path("subreddit_name") String subredditName);
+    @GET("/.json")
+    Call<RedditWrapper> getHomepage();
+
+    @GET("/r/{subreddit_name}/.json")
+    Call<RedditWrapper> getSubreddit(@Path("subreddit_name") String subredditName);
 }

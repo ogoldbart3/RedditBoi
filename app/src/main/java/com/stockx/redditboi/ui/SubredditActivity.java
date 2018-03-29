@@ -79,7 +79,9 @@ public class SubredditActivity extends BaseActivity {
         mPostAdapter.setItemClickListener(new GenericListener<RedditPost>() {
             @Override
             public void onComplete(RedditPost output) {
-                System.out.println(output.getData().getScore());
+                String url = getString(R.string.base_url) + output.getData().getPermalink();
+                System.out.println(url);
+                openWebPage(url);
             }
         });
 

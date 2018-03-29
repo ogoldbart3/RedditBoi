@@ -2,6 +2,7 @@ package com.stockx.redditboi.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    protected void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
     //
 
     protected void hideKeyboard() {
@@ -46,8 +55,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //
 
+    protected void initiateGetHomepageCall(Callback<RedditWrapper> callback) {
+        fetchSubredditCall = App.getApiClient().getApiService().getHomepage();
+        fetchSubredditCall.enqueue(callback);
+    }
+
     protected void initiateGetSubredditCall(String subredditName, Callback<RedditWrapper> callback) {
-        fetchSubredditCall = App.getApiClient().getApiService().getSearch(subredditName);
+        fetchSubredditCall = App.getApiClient().getApiService().getSubreddit(subredditName);
         fetchSubredditCall.enqueue(callback);
     }
 
