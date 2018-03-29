@@ -64,17 +64,6 @@ public class MainActivity extends AppCompatActivity {
         postRecycler.setLayoutManager(searchHistoryLinearLayoutManager);
         postRecycler.setAdapter(mPostAdapter);
 
-        //
-
-//        DatabaseInitializer.getTaskNotesAsync(AppDatabase.getAppDatabase(this), new GenericListener<List<TaskNote>>() {
-//            @Override
-//            public void onComplete(List<TaskNote> output) {
-//                mTaskNoteAdapter.setItems(output);
-//                mTaskNoteAdapter.scrollToBottom();
-//            }
-//        });
-
-
         initiateGetSubredditCall("sneakers", new Callback<RedditWrapper>() {
             @Override
             public void onResponse(Call<RedditWrapper> call, Response<RedditWrapper> response) {
@@ -82,12 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     RedditWrapper redditWrapper = response.body();
                     if (redditWrapper != null
                             && redditWrapper.getData() != null) {
-
-//                        System.out.println(redditWrapper);
-
-//                        for (RedditPost redditPost : redditWrapper.getData().getChildren()) {
-//                            System.out.println(redditPost.getData().getTitle());
-//                        }
                         mPostAdapter.setItems(redditWrapper.getData().getChildren());
                     }
                 }
