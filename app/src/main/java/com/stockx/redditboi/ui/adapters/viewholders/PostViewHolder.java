@@ -16,14 +16,19 @@ import com.stockx.redditboi.model.RedditPost;
 public class PostViewHolder extends BaseViewHolder<RedditPost> {
 
     private ImageView mPreviewImageView;
+    private TextView mSubredditTextView;
     private TextView mTitleTextView;
 
     private RedditPost mRedditPost;
+    private boolean mShowSubreddit;
 
-    public PostViewHolder(View itemView, GenericListener<RedditPost> itemClickListener) {
+    public PostViewHolder(View itemView, boolean showSubreddit, GenericListener<RedditPost> itemClickListener) {
         super(itemView, itemClickListener);
 
+        mShowSubreddit = showSubreddit;
+
         mPreviewImageView = itemView.findViewById(R.id.post_preview);
+        mSubredditTextView = itemView.findViewById(R.id.post_subreddit);
         mTitleTextView = itemView.findViewById(R.id.post_title);
     }
 
@@ -50,6 +55,9 @@ public class PostViewHolder extends BaseViewHolder<RedditPost> {
         } else {
             mPreviewImageView.setVisibility(View.GONE);
         }
+
+        mSubredditTextView.setVisibility(mShowSubreddit ? View.VISIBLE : View.GONE);
+        mSubredditTextView.setText(redditPost.getData().getSubreddit());
 
         mTitleTextView.setText(redditPost.getData().getTitle());
 

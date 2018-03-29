@@ -13,10 +13,16 @@ import com.stockx.redditboi.ui.adapters.viewholders.PostViewHolder;
 
 public class PostAdapter extends BaseAdapter<RedditPost, PostViewHolder> {
 
+    private boolean mShowSubreddit = false;
+
+    public PostAdapter(boolean showSubreddit) {
+        mShowSubreddit = showSubreddit;
+    }
+
     @Override
     public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PostViewHolder(inflater.inflate(viewType, parent, false), mItemClickListener);
+        return new PostViewHolder(inflater.inflate(viewType, parent, false), mShowSubreddit, mItemClickListener);
     }
 
     @Override

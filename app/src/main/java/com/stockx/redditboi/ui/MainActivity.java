@@ -28,14 +28,11 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
-
         RecyclerView postRecycler = findViewById(R.id.recycler);
 
         //
 
-        mPostAdapter = new PostAdapter();
+        mPostAdapter = new PostAdapter(true);
         mPostAdapter.setItemClickListener(new GenericListener<RedditPost>() {
             @Override
             public void onComplete(RedditPost output) {

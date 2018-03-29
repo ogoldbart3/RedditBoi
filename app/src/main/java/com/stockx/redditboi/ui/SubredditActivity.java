@@ -1,6 +1,7 @@
 package com.stockx.redditboi.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -37,8 +38,13 @@ public class SubredditActivity extends BaseActivity {
             if (response.isSuccessful()) {
                 RedditWrapper redditWrapper = response.body();
                 if (redditWrapper != null
-                        && redditWrapper.getData() != null) {
+                        && redditWrapper.getData() != null
+                        && redditWrapper.getData().getChildren() != null
+                        && redditWrapper.getData().getChildren().size() > 0) {
                     mPostAdapter.setItems(redditWrapper.getData().getChildren());
+                    hideKeyboard();
+                } else {
+                    Snackbar.make(mEditText, "\"" + mEditText.getText().toString() + "\" ain't no subreddit", Snackbar.LENGTH_LONG).show();
                 }
             }
         }
@@ -66,7 +72,6 @@ public class SubredditActivity extends BaseActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_GO) {
                     initiateGetSubredditCall(v.getText().toString(), mCallback);
-                    hideKeyboard();
                     return true;
                 }
                 return false;
@@ -75,7 +80,7 @@ public class SubredditActivity extends BaseActivity {
 
         RecyclerView postRecycler = findViewById(R.id.recycler);
 
-        mPostAdapter = new PostAdapter();
+        mPostAdapter = new PostAdapter(false);
         mPostAdapter.setItemClickListener(new GenericListener<RedditPost>() {
             @Override
             public void onComplete(RedditPost output) {
