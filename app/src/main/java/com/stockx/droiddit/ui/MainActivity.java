@@ -1,6 +1,7 @@
 package com.stockx.droiddit.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,8 @@ public class MainActivity extends BaseActivity {
 
     private PostAdapter mPostAdapter;
 
+    private RecyclerView mPostRecycler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +30,7 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView postRecycler = findViewById(R.id.recycler);
+        mPostRecycler = findViewById(R.id.recycler);
 
         //
 
@@ -42,8 +45,8 @@ public class MainActivity extends BaseActivity {
         });
 
         LinearLayoutManager searchHistoryLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        postRecycler.setLayoutManager(searchHistoryLinearLayoutManager);
-        postRecycler.setAdapter(mPostAdapter);
+        mPostRecycler.setLayoutManager(searchHistoryLinearLayoutManager);
+        mPostRecycler.setAdapter(mPostAdapter);
 
         initiateGetHomepageCall(new Callback<RedditWrapper>() {
             @Override
@@ -53,13 +56,17 @@ public class MainActivity extends BaseActivity {
                     if (redditWrapper != null
                             && redditWrapper.getData() != null) {
                         mPostAdapter.setItems(redditWrapper.getData().getChildren());
+                    } else {
+                        Snackbar.make(mPostRecycler, getString(R.string.network_error_snackbar), Snackbar.LENGTH_LONG).show();
                     }
+                } else {
+                    Snackbar.make(mPostRecycler, getString(R.string.network_error_snackbar), Snackbar.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RedditWrapper> call, Throwable t) {
-
+                Snackbar.make(mPostRecycler, getString(R.string.network_error_snackbar), Snackbar.LENGTH_LONG).show();
             }
         });
 

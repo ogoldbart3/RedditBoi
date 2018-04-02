@@ -14,4 +14,5 @@
     <string name="subreddit_name_edit_text_hint">…</string>
 
     <string name="subreddit_not_found_snackbar">\"%1$s\" ain\'t no subreddit I\'ve ever seen</string>
+    <string name="network_error_snackbar">Network error</string>
 </resources>

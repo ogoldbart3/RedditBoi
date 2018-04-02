@@ -52,12 +52,14 @@ public class SubredditActivity extends BaseActivity {
                 } else {
                     Snackbar.make(mEditText, getString(R.string.subreddit_not_found_snackbar, mEditText.getText().toString()), Snackbar.LENGTH_LONG).show();
                 }
+            } else {
+                Snackbar.make(mEditText, getString(R.string.network_error_snackbar), Snackbar.LENGTH_LONG).show();
             }
         }
 
         @Override
         public void onFailure(Call<RedditWrapper> call, Throwable t) {
-
+            Snackbar.make(mEditText, getString(R.string.network_error_snackbar), Snackbar.LENGTH_LONG).show();
         }
     };
 
