@@ -1,17 +1,16 @@
-package com.stockx.redditboi.ui;
+package com.stockx.droiddit.ui;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 
-import com.stockx.redditboi.R;
-import com.stockx.redditboi.listeners.GenericListener;
-import com.stockx.redditboi.model.RedditPost;
-import com.stockx.redditboi.model.RedditWrapper;
-import com.stockx.redditboi.ui.adapters.PostAdapter;
+import com.stockx.droiddit.R;
+import com.stockx.droiddit.listeners.SimpleFinishListener;
+import com.stockx.droiddit.model.RedditPost;
+import com.stockx.droiddit.model.RedditWrapper;
+import com.stockx.droiddit.ui.adapters.PostAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,8 +31,8 @@ public class MainActivity extends BaseActivity {
 
         //
 
-        mPostAdapter = new PostAdapter(true);
-        mPostAdapter.setItemClickListener(new GenericListener<RedditPost>() {
+        mPostAdapter = new PostAdapter();
+        mPostAdapter.setItemClickListener(new SimpleFinishListener<RedditPost>() {
             @Override
             public void onComplete(RedditPost output) {
                 String url = getString(R.string.base_url) + output.getData().getPermalink();
@@ -71,20 +70,5 @@ public class MainActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

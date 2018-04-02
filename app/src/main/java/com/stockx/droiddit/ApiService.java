@@ -1,13 +1,13 @@
-package com.stockx.redditboi;
+package com.stockx.droiddit;
 
-import com.stockx.redditboi.model.RedditWrapper;
+import com.stockx.droiddit.model.RedditWrapper;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 /**
- * Created by oliver on 8/23/2016
+ * Created by harold on 8/23/2016
  */
 public interface ApiService {
 

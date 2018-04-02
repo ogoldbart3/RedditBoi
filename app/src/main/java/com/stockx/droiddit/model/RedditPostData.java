@@ -1,11 +1,11 @@
-package com.stockx.redditboi.model;
+package com.stockx.droiddit.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 /**
- * Created by oliver on 3/29/18
+ * Created by harold on 3/29/18
  */
 
 public class RedditPostData implements Serializable {

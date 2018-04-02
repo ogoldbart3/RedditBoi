@@ -1,4 +1,4 @@
-package com.stockx.redditboi;
+package com.stockx.droiddit;
 
 
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestApiClient {
-    private static final String TAG = RestApiClient.class.getSimpleName();
 
     private ApiService mApiService;
 
@@ -18,8 +17,8 @@ public class RestApiClient {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .readTimeout(30, TimeUnit.SECONDS)
-                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor)
                 .build();
 

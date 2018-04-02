@@ -1,16 +1,16 @@
-package com.stockx.redditboi.ui.adapters.viewholders;
+package com.stockx.droiddit.ui.adapters.viewholders;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.stockx.redditboi.R;
-import com.stockx.redditboi.listeners.GenericListener;
-import com.stockx.redditboi.model.RedditPost;
+import com.stockx.droiddit.R;
+import com.stockx.droiddit.listeners.SimpleFinishListener;
+import com.stockx.droiddit.model.RedditPost;
 
 /**
- * Created by oliver on 3/19/18
+ * Created by harold on 3/19/18
  */
 
 public class PostViewHolder extends BaseViewHolder<RedditPost> {
@@ -20,12 +20,9 @@ public class PostViewHolder extends BaseViewHolder<RedditPost> {
     private TextView mTitleTextView;
 
     private RedditPost mRedditPost;
-    private boolean mShowSubreddit;
 
-    public PostViewHolder(View itemView, boolean showSubreddit, GenericListener<RedditPost> itemClickListener) {
+    public PostViewHolder(View itemView, SimpleFinishListener<RedditPost> itemClickListener) {
         super(itemView, itemClickListener);
-
-        mShowSubreddit = showSubreddit;
 
         mPreviewImageView = itemView.findViewById(R.id.post_preview);
         mSubredditTextView = itemView.findViewById(R.id.post_subreddit);
@@ -56,8 +53,7 @@ public class PostViewHolder extends BaseViewHolder<RedditPost> {
             mPreviewImageView.setVisibility(View.GONE);
         }
 
-        mSubredditTextView.setVisibility(mShowSubreddit ? View.VISIBLE : View.GONE);
-        mSubredditTextView.setText(redditPost.getData().getSubreddit());
+        mSubredditTextView.setText(mContext.getString(R.string.subreddit_url_prefix_with_value, redditPost.getData().getSubreddit()));
 
         mTitleTextView.setText(redditPost.getData().getTitle());
 
@@ -69,5 +65,10 @@ public class PostViewHolder extends BaseViewHolder<RedditPost> {
                 }
             }
         });
+    }
+
+    public void bind(RedditPost redditPost, boolean showSubreddit) {
+        bind(redditPost);
+        mSubredditTextView.setVisibility(showSubreddit ? View.VISIBLE : View.GONE);
     }
 }

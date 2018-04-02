@@ -1,4 +1,4 @@
-package com.stockx.redditboi;
+package com.stockx.droiddit;
 
 import org.junit.Test;
 

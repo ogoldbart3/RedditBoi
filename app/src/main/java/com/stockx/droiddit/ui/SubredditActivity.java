@@ -1,4 +1,4 @@
-package com.stockx.redditboi.ui;
+package com.stockx.droiddit.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -12,18 +12,19 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.stockx.redditboi.R;
-import com.stockx.redditboi.listeners.GenericListener;
-import com.stockx.redditboi.model.RedditPost;
-import com.stockx.redditboi.model.RedditWrapper;
-import com.stockx.redditboi.ui.adapters.PostAdapter;
+import com.stockx.droiddit.R;
+import com.stockx.droiddit.listeners.OnKeyboardVisibilityListener;
+import com.stockx.droiddit.listeners.SimpleFinishListener;
+import com.stockx.droiddit.model.RedditPost;
+import com.stockx.droiddit.model.RedditWrapper;
+import com.stockx.droiddit.ui.adapters.PostAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by oliver on 3/29/18
+ * Created by harold on 3/29/18
  */
 
 public class SubredditActivity extends BaseActivity {
@@ -31,6 +32,11 @@ public class SubredditActivity extends BaseActivity {
     private PostAdapter mPostAdapter;
 
     private EditText mEditText;
+
+    private MenuItem mGoToSubredditMenuItem;
+    private MenuItem mOpenSubredditMenuItem;
+    private MenuItem mToggleSubredditNamesOnMenuItem;
+    private MenuItem mToggleSubredditNamesOffMenuItem;
 
     private Callback<RedditWrapper> mCallback = new Callback<RedditWrapper>() {
         @Override
@@ -44,7 +50,7 @@ public class SubredditActivity extends BaseActivity {
                     mPostAdapter.setItems(redditWrapper.getData().getChildren());
                     hideKeyboard();
                 } else {
-                    Snackbar.make(mEditText, "\"" + mEditText.getText().toString() + "\" ain't no subreddit", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mEditText, getString(R.string.subreddit_not_found_snackbar, mEditText.getText().toString()), Snackbar.LENGTH_LONG).show();
                 }
             }
         }
@@ -80,8 +86,8 @@ public class SubredditActivity extends BaseActivity {
 
         RecyclerView postRecycler = findViewById(R.id.recycler);
 
-        mPostAdapter = new PostAdapter(false);
-        mPostAdapter.setItemClickListener(new GenericListener<RedditPost>() {
+        mPostAdapter = new PostAdapter();
+        mPostAdapter.setItemClickListener(new SimpleFinishListener<RedditPost>() {
             @Override
             public void onComplete(RedditPost output) {
                 String url = getString(R.string.base_url) + output.getData().getPermalink();
@@ -93,25 +99,47 @@ public class SubredditActivity extends BaseActivity {
         LinearLayoutManager searchHistoryLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         postRecycler.setLayoutManager(searchHistoryLinearLayoutManager);
         postRecycler.setAdapter(mPostAdapter);
+
+        setKeyboardVisibilityListener(new OnKeyboardVisibilityListener() {
+            @Override
+            public void onVisibilityChanged(boolean visible) {
+                mGoToSubredditMenuItem.setVisible(visible);
+                mOpenSubredditMenuItem.setVisible(!visible);
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_subreddit, menu);
+
+        mGoToSubredditMenuItem = menu.findItem(R.id.action_go_to_subreddit);
+        mOpenSubredditMenuItem = menu.findItem(R.id.action_open_subreddit);
+        mToggleSubredditNamesOnMenuItem = menu.findItem(R.id.action_toggle_subreddit_names_on);
+        mToggleSubredditNamesOffMenuItem = menu.findItem(R.id.action_toggle_subreddit_names_off);
+
+        mOpenSubredditMenuItem.setVisible(false);
+        mToggleSubredditNamesOnMenuItem.setVisible(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_go_to_subreddit:
+                initiateGetSubredditCall(mEditText.getText().toString(), mCallback);
+                return true;
+            case R.id.action_toggle_subreddit_names_on:
+                mPostAdapter.setShowSubredditNames(true);
+                mToggleSubredditNamesOnMenuItem.setVisible(false);
+                mToggleSubredditNamesOffMenuItem.setVisible(true);
+                return true;
+            case R.id.action_toggle_subreddit_names_off:
+                mPostAdapter.setShowSubredditNames(false);
+                mToggleSubredditNamesOnMenuItem.setVisible(true);
+                mToggleSubredditNamesOffMenuItem.setVisible(false);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
