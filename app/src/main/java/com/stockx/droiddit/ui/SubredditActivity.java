@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.stockx.droiddit.R;
-import com.stockx.droiddit.listeners.OnKeyboardVisibilityListener;
+import com.stockx.droiddit.listeners.KeyboardVisibilityListener;
 import com.stockx.droiddit.listeners.SimpleFinishListener;
 import com.stockx.droiddit.model.RedditPost;
 import com.stockx.droiddit.model.RedditWrapper;
@@ -102,7 +102,7 @@ public class SubredditActivity extends BaseActivity {
         postRecycler.setLayoutManager(searchHistoryLinearLayoutManager);
         postRecycler.setAdapter(mPostAdapter);
 
-        setKeyboardVisibilityListener(new OnKeyboardVisibilityListener() {
+        setKeyboardVisibilityListener(new KeyboardVisibilityListener() {
             @Override
             public void onVisibilityChanged(boolean visible) {
                 mGoToSubredditMenuItem.setVisible(visible);

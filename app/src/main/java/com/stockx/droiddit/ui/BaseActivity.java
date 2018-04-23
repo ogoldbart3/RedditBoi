@@ -16,7 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.stockx.droiddit.App;
 import com.stockx.droiddit.R;
-import com.stockx.droiddit.listeners.OnKeyboardVisibilityListener;
+import com.stockx.droiddit.listeners.KeyboardVisibilityListener;
 import com.stockx.droiddit.model.RedditWrapper;
 
 import retrofit2.Call;
@@ -74,7 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //
 
-    protected void setKeyboardVisibilityListener(final OnKeyboardVisibilityListener onKeyboardVisibilityListener) {
+    protected void setKeyboardVisibilityListener(final KeyboardVisibilityListener keyboardVisibilityListener) {
         final View parentView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
         parentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -95,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     return;
                 }
                 alreadyOpen = isShown;
-                onKeyboardVisibilityListener.onVisibilityChanged(isShown);
+                keyboardVisibilityListener.onVisibilityChanged(isShown);
             }
         });
     }
