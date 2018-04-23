@@ -10,7 +10,7 @@ import com.stockx.droiddit.listeners.SimpleFinishListener;
 import com.stockx.droiddit.model.RedditPost;
 
 /**
- * Created by harold on 3/19/18
+ * Created by harold on 3/29/18
  */
 
 public class PostViewHolder extends BaseViewHolder<RedditPost> {

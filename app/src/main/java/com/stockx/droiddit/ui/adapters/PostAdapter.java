@@ -9,7 +9,7 @@ import com.stockx.droiddit.model.RedditPost;
 import com.stockx.droiddit.ui.adapters.viewholders.PostViewHolder;
 
 /**
- * Created by harold on 3/19/18
+ * Created by harold on 3/29/18
  */
 
 public class PostAdapter extends BaseAdapter<RedditPost, PostViewHolder> {

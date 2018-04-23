@@ -7,7 +7,7 @@ import android.view.View;
 import com.stockx.droiddit.listeners.SimpleFinishListener;
 
 /**
- * Created by harold on 3/11/18
+ * Created by harold on 3/29/18
  */
 
 public abstract class BaseViewHolder<U> extends RecyclerView.ViewHolder {

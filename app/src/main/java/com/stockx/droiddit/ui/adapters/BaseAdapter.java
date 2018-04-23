@@ -10,7 +10,7 @@ import com.stockx.droiddit.ui.adapters.viewholders.BaseViewHolder;
 import java.util.List;
 
 /**
- * Created by harold on 3/11/18
+ * Created by harold on 3/29/18
  */
 
 public abstract class BaseAdapter<T, U extends BaseViewHolder<T>> extends RecyclerView.Adapter<U> {

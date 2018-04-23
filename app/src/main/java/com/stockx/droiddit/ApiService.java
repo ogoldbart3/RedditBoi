@@ -7,8 +7,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 /**
- * Created by harold on 8/23/2016
+ * Created by harold on 3/19/18
  */
+
 public interface ApiService {
 
     @GET("/.json")
